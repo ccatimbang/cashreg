@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe Cart, type: :model do
   describe 'associations' do
-    it { should have_many(:cart_items).dependent(:destroy) }
-    it { should have_many(:products).through(:cart_items) }
+    it { is_expected.to have_many(:cart_items).dependent(:destroy) }
+    it { is_expected.to have_many(:products).through(:cart_items) }
   end
 
   describe '#add_product' do
@@ -18,7 +18,7 @@ RSpec.describe Cart, type: :model do
     it 'increases quantity for existing product' do
       cart.add_product(green_tea.code)
       expect { cart.add_product(green_tea.code) }
-        .not_to change { cart.cart_items.count }
+        .not_to(change { cart.cart_items.count })
       expect(cart.cart_items.first.quantity).to eq(2)
     end
   end
@@ -33,7 +33,7 @@ RSpec.describe Cart, type: :model do
 
     it 'decreases quantity by 1' do
       expect { cart.remove_product(green_tea.code) }
-        .not_to change { cart.cart_items.count }
+        .not_to(change { cart.cart_items.count })
       expect(cart.cart_items.first.quantity).to eq(1)
     end
 
@@ -75,7 +75,7 @@ RSpec.describe Cart, type: :model do
         expect(cart.total_price).to eq(22.46)
 
         cart.add_product(coffee.code)
-        expected_price = (11.23 * 3 * 2/3.0).round(2)
+        expected_price = (11.23 * 3 * 2 / 3.0).round(2)
         expect(cart.total_price).to eq(expected_price)
       end
     end
@@ -83,7 +83,7 @@ RSpec.describe Cart, type: :model do
     context 'with mixed items' do
       it 'calculates correct total with all discounts' do
         # Test case from requirements: GR1,SR1,GR1,GR1,CF1
-        cart.add_product(green_tea.code)   # 3.11
+        cart.add_product(green_tea.code) # 3.11
         cart.add_product(strawberries.code) # 5.00
         cart.add_product(green_tea.code)   # Free
         cart.add_product(green_tea.code)   # 3.11
@@ -93,4 +93,4 @@ RSpec.describe Cart, type: :model do
       end
     end
   end
-end 
+end

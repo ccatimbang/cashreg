@@ -3,24 +3,24 @@ module Api
     class CartsController < ApplicationController
       before_action :set_cart, except: [:create]
 
-      def create
-        @cart = Cart.create!
-        render json: { id: @cart.id }, status: :created
-      end
-
       def show
         render json: {
           id: @cart.id,
-          items: @cart.cart_items.includes(:product).map { |item|
+          items: @cart.cart_items.includes(:product).map do |item|
             {
               product_code: item.product.code,
               quantity: item.quantity,
               unit_price: item.product.price.to_f,
               total: (item.product.price * item.quantity).round(2)
             }
-          },
+          end,
           total_price: @cart.total_price.to_f
         }
+      end
+
+      def create
+        @cart = Cart.create!
+        render json: { id: @cart.id }, status: :created
       end
 
       def add_item

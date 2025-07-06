@@ -39,7 +39,7 @@ RSpec.describe PricingService do
 
       it 'applies quantity discount for 3 or more' do
         price = service.calculate_item_price(coffee, 3)
-        expected_price = (11.23 * 3 * 2/3.0).round(2)
+        expected_price = (11.23 * 3 * 2 / 3.0).round(2)
         expect(price).to eq(expected_price)
       end
     end
@@ -66,12 +66,12 @@ RSpec.describe PricingService do
 
       total = service.calculate_total(cart)
       expected_total = (
-        3.11 * 2 +           # 2 paid green teas (2 free)
-        4.50 * 3 +           # 3 strawberries at bulk price
-        (11.23 * 3 * 2/3.0)  # 3 coffees at 2/3 price
+        (3.11 * 2) +           # 2 paid green teas (2 free)
+        (4.50 * 3) +           # 3 strawberries at bulk price
+        (11.23 * 3 * 2 / 3.0)  # 3 coffees at 2/3 price
       ).round(2)
-      
+
       expect(total).to eq(expected_total)
     end
   end
-end 
+end

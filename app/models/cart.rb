@@ -12,7 +12,7 @@ class Cart < ApplicationRecord
   def remove_product(product_code)
     product = Product.find_by!(code: product_code)
     cart_item = cart_items.find_by!(product: product)
-    
+
     cart_item.quantity -= 1
     if cart_item.quantity <= 0
       cart_item.destroy!
@@ -26,7 +26,7 @@ class Cart < ApplicationRecord
   end
 
   def as_json(options = {})
-    super(options).merge(
+    super.merge(
       total_price: total_price,
       cart_items: cart_items.as_json(include: :product)
     )
